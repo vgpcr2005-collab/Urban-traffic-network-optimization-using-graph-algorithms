@@ -1,0 +1,12 @@
+{
+  "name": "flowstate-traffic-optimizer",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Simulated urban traffic network optimization demo with username/password accounts",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

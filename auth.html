@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101a2c">
+  <title>Sign in | Flowstate</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="auth.css?v=3">
+  <script src="auth.js" defer></script>
+</head>
+<body class="auth-page">
+  <main class="auth-layout">
+    <section class="auth-story" aria-label="About Flowstate">
+      <a class="brand auth-brand" href="/" aria-label="Flowstate home">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span>flow<span class="brand-light">state</span><small>URBAN MOBILITY LAB</small></span>
+      </a>
+      <div class="story-content">
+        <div class="story-eyebrow"><i></i> BENGALURU NETWORK · SIMULATION</div>
+        <h1>Make every<br>move <span>count.</span></h1>
+        <p>See the city as a living network. Find smarter routes, anticipate congestion, and help emergency vehicles get through.</p>
+        <div class="network-visual" aria-hidden="true">
+          <div class="visual-orbit orbit-one"></div><div class="visual-orbit orbit-two"></div>
+          <svg viewBox="0 0 540 260" role="presentation">
+            <defs>
+              <linearGradient id="route-gradient" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#ff9e9c"/><stop offset="1" stop-color="#c992e9"/></linearGradient>
+              <pattern id="city-grid" width="34" height="34" patternUnits="userSpaceOnUse" patternTransform="rotate(-20)">
+                <path d="M0 17H34M17 0V34" fill="none" stroke="#a3b8dc" stroke-opacity=".11" stroke-width="1"/>
+              </pattern>
+            </defs>
+            <rect width="540" height="260" fill="url(#city-grid)"/>
+            <g fill="none" stroke="#a6b9db" stroke-opacity=".28" stroke-width="2">
+              <path d="M-15 70 90 48l94 30 94-43 100 31 114-26"/>
+              <path d="m-20 157 107-30 111 25 92-51 96 40 100-35"/>
+              <path d="m34 278 38-92 90-23 72 45 94-31 63 50 112-31"/>
+              <path d="m115-15 34 76-19 78 53 71-6 78"/>
+              <path d="m302-10-18 62 20 73-25 73 23 73"/>
+              <path d="m456-10-24 83 26 64-18 76 28 63"/>
+            </g>
+            <path d="M87 127 169 155 225 218 304 187 379 203 435 113 490 79" fill="none" stroke="url(#route-gradient)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1 0"/>
+            <path d="M87 127 169 155 225 218 304 187 379 203 435 113 490 79" fill="none" stroke="#ff9e9c" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" opacity=".14"/>
+            <g fill="#30202b" stroke="#ffa4a0" stroke-width="3">
+              <circle cx="87" cy="127" r="7"/><circle cx="169" cy="155" r="6"/><circle cx="225" cy="218" r="6"/>
+              <circle cx="304" cy="187" r="7"/><circle cx="379" cy="203" r="6"/><circle cx="435" cy="113" r="7"/>
+            </g>
+            <circle cx="490" cy="79" r="15" fill="#ff999e" opacity=".2"/><circle cx="490" cy="79" r="7" fill="#ffa8a1" stroke="#fff0ec" stroke-width="2"/>
+            <g fill="#d1bac3" font-family="DM Sans, sans-serif" font-size="9" font-weight="700" letter-spacing="1.2">
+              <text x="65" y="111">J1</text><text x="153" y="141">J4</text><text x="292" y="173">J7</text><text x="480" y="60">HOSPITAL</text>
+            </g>
+          </svg>
+          <div class="map-float"><span class="float-pulse"></span><span><strong>GREEN CORRIDOR</strong><small>Signal priority active · J7</small></span><span class="float-arrow">↗</span></div>
+          <div class="map-distance">OPTIMIZED ROUTE <b>12.4 km</b></div>
+        </div>
+        <div class="story-metrics">
+          <div><strong>12</strong><span>connected junctions</span></div><i></i>
+          <div><strong>3</strong><span>emergency corridors</span></div><i></i>
+          <div><strong>24/7</strong><span>network insights</span></div>
+        </div>
+      </div>
+      <div class="story-footer"><span>© 2026 Flowstate Mobility Lab</span><span>Built for a city in motion <b>✳</b></span></div>
+    </section>
+
+    <section class="auth-panel" aria-label="Account access">
+      <div class="auth-panel-top"><span>TRAFFIC INTELLIGENCE PLATFORM</span><span class="secure-label"><i></i> SECURE ACCESS</span></div>
+      <div class="auth-card">
+        <div class="auth-icon" aria-hidden="true"><span class="brand-mark"><i></i><i></i><i></i><i></i></span></div>
+        <div class="auth-welcome">YOUR NETWORK, AT A GLANCE</div>
+        <h2 id="auth-title">Welcome back</h2>
+        <p class="auth-subtitle" id="auth-subtitle">Sign in to continue to your traffic workspace.</p>
+
+        <div class="auth-tabs" role="tablist" aria-label="Account action">
+          <button type="button" class="auth-tab active" id="login-tab" role="tab" aria-selected="true">Sign in</button>
+          <button type="button" class="auth-tab" id="register-tab" role="tab" aria-selected="false">Create account</button>
+        </div>
+
+        <form id="auth-form" novalidate>
+          <label for="username">Username</label>
+          <div class="input-wrap"><span class="field-icon" aria-hidden="true">◎</span><input id="username" name="username" type="text" placeholder="Enter your username" minlength="3" maxlength="24" autocomplete="username" autocapitalize="none" spellcheck="false" required></div>
+          <small class="field-hint">3–24 characters: letters, numbers, dots, _ or -</small>
+
+          <div class="password-label"><label for="password">Password</label><button type="button" id="password-toggle" aria-label="Show password">Show</button></div>
+          <div class="input-wrap"><span class="field-icon lock-icon" aria-hidden="true">▣</span><input id="password" name="password" type="password" placeholder="Enter your password" minlength="10" maxlength="128" autocomplete="current-password" required></div>
+          <small class="field-hint password-hint" id="password-hint">Use at least 10 characters.</small>
+
+          <div class="confirm-field" id="confirm-field" hidden>
+            <label for="password-confirm">Confirm password</label>
+            <div class="input-wrap"><span class="field-icon lock-icon" aria-hidden="true">▣</span><input id="password-confirm" name="password-confirm" type="password" placeholder="Enter your password again" minlength="10" maxlength="128" autocomplete="new-password"></div>
+          </div>
+
+          <div class="form-message" id="form-message" role="alert" hidden></div>
+          <button class="submit-button" id="submit-button" type="submit"><span id="submit-label">Sign in to workspace</span><span class="submit-arrow" aria-hidden="true">→</span></button>
+        </form>
+
+        <div class="auth-divider"><span></span><i>OR</i><span></span></div>
+        <div class="auth-footnote"><span class="footnote-icon">✦</span><span><strong>Built for the next move.</strong><small>Graph-powered routes. Safer, smarter city journeys.</small></span></div>
+      </div>
+      <div class="auth-bottom"><span>Academic simulation · Traffic data is simulated</span><a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap attribution ↗</a></div>
+    </section>
+  </main>
+</body>
+</html>

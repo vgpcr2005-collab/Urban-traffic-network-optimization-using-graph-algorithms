@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101a2c">
+  <title>TraficFlow — Urban Traffic Network Optimization</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body class="auth-pending">
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="TraficFlow home">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span>trafic<span class="brand-light">flow</span><small>URBAN MOBILITY LAB</small></span>
+      </a>
+
+      <div class="workspace-label">WORKSPACE</div>
+      <button class="city-picker" type="button">
+        <span class="city-icon">BLR</span>
+        <span><strong>Bengaluru, India</strong><small>Simulation network</small></span>
+        <span class="chevron">⌄</span>
+      </button>
+
+      
+      <nav class="side-nav" aria-label="Main navigation">
+        <button class="nav-item active" data-view="overview"><span class="nav-icon">◫</span><span class="nav-label">Network overview</span></button>
+        <button class="nav-item" data-view="routes"><span class="nav-icon">⌁</span><span class="nav-label">Route optimizer</span></button>
+        <button class="nav-item" data-view="signals"><span class="nav-icon">◉</span><span class="nav-label">Signal control</span><span class="nav-badge">4</span></button>
+        <button class="nav-item" data-view="incidents"><span class="nav-icon">△</span><span class="nav-label">Incidents</span><span class="incident-count">1</span></button>
+      </nav>
+
+      <div class="sidebar-spacer"></div>
+      <div class="network-status">
+        <span class="status-dot"></span>
+        <span><strong>Simulation live</strong><small>Updated just now</small></span>
+        <span class="pulse"></span>
+      </div>
+      <div class="profile">
+        <div class="avatar" id="profile-avatar">AK</div>
+        <span><strong id="profile-username">Traffic operator</strong><small>Traffic operator</small></span>
+        <button class="more-button" aria-label="More profile options">···</button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="breadcrumb"><span>Workspace</span><b>/</b><strong>Network overview</strong></div>
+        <div class="topbar-actions">
+          <span class="live-indicator"><i></i> LIVE SIMULATION</span>
+          <button class="icon-button" aria-label="Notifications">♧<span class="notification-dot"></span></button>
+          <div class="topbar-avatar" id="topbar-avatar">AK</div>
+          <button class="logout-button" id="logout-button" type="button">Log out <span>↗</span></button>
+        </div>
+      </header>
+
+      <section class="page-heading">
+        <div>
+          <div class="eyebrow"><span class="eyebrow-line"></span> <span id="current-date">THURSDAY, 08 OCTOBER 2026</span> <span class="heading-time" id="current-time">09:41 AM</span></div>
+          <h1 id="greeting">Good morning, Arjun <span class="wave">✳</span></h1>
+          <p>Here’s what’s happening across your network today.</p>
+        </div>
+        <button class="primary-button" id="refresh-button"><span>↻</span> Refresh network</button>
+      </section>
+
+      <section class="stats-grid" aria-label="Network summary">
+        <article class="stat-card">
+          <div class="stat-top"><span>AVERAGE TRAVEL TIME</span><span class="stat-icon blue">◷</span></div>
+          <div class="stat-value"><strong id="avg-time">24.8</strong><span>min</span><em class="trend positive">↓ 8.2%</em></div>
+          <div class="stat-foot">vs. yesterday’s network average</div>
+          <div class="sparkline blue-line"><svg viewBox="0 0 160 34" preserveAspectRatio="none"><path d="M0 24 C12 22 16 26 27 18 S44 21 55 13 S69 23 82 14 S98 18 108 10 S125 18 137 8 S151 13 160 4"/></svg></div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-top"><span>NETWORK CONGESTION</span><span class="stat-icon orange">⌁</span></div>
+          <div class="stat-value"><strong id="congestion-value">38</strong><span>%</span><em class="trend positive">↓ 4.6%</em></div>
+          <div class="stat-foot">Across 12 monitored junctions</div>
+          <div class="sparkline orange-line"><svg viewBox="0 0 160 34" preserveAspectRatio="none"><path d="M0 7 C10 13 17 9 27 18 S41 10 53 17 S68 16 79 26 S94 17 105 23 S120 17 132 26 S145 23 160 30"/></svg></div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-top"><span>ACTIVE INCIDENTS</span><span class="stat-icon red">⚠</span></div>
+          <div class="stat-value"><strong id="incident-value">01</strong><span>road closure</span></div>
+          <div class="stat-foot"><span class="mini-live-dot"></span> Outer Ring Rd · 8 min ago</div>
+          <div class="incident-progress"><span></span></div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-top"><span>EMERGENCY VEHICLES</span><span class="stat-icon green">✚</span></div>
+          <div class="stat-value"><strong>03</strong><span>active routes</span></div>
+          <div class="stat-foot"><span class="mini-live-dot green-dot"></span> All corridors clear</div>
+          <div class="vehicle-dots"><i>✚</i><i>✚</i><i>✚</i><span>+2 responding</span></div>
+        </article>
+      </section>
+
+      <section class="content-grid">
+        <article class="panel map-panel">
+          <div class="panel-heading">
+            <div><h2>Live network</h2><p>Dynamic traffic conditions across the city</p></div>
+            <div class="map-controls">
+              <button class="layer-button active" id="traffic-layer-button">Traffic</button>
+              <button class="layer-button" id="risk-layer-button">Road risk</button>
+              <button class="expand-button" id="fit-map" aria-label="Show whole network">⛶</button>
+            </div>
+          </div>
+          <div class="map-canvas">
+            <div id="city-map" role="application" aria-label="Interactive OpenStreetMap map of Bengaluru with simulated traffic and junctions"></div>
+            <div class="map-zoom"><button id="map-zoom-in" aria-label="Zoom in">+</button><button id="map-zoom-out" aria-label="Zoom out">−</button></div>
+            <div class="map-legend"><span><i class="legend-green"></i><b>Clear</b></span><span><i class="legend-yellow"></i><b>Moderate</b></span><span><i class="legend-red"></i><b>Heavy</b></span></div>
+            <div class="map-incident"><span class="incident-symbol">!</span><span><strong>Road closure</strong><small>Outer Ring Rd · J3—J4</small></span><button id="incident-toggle" aria-label="Toggle road closure">×</button></div>
+          </div>
+          <div class="map-footer"><span><i></i> 12 simulated junctions monitored</span><span>OpenStreetMap base <b>·</b> Traffic and risk are simulated</span></div>
+        </article>
+
+        <aside class="panel optimizer-panel">
+          <div class="panel-heading optimizer-heading"><div><h2>Route optimizer</h2><p>Find the best path for your journey</p></div><span class="optimizer-icon">⌁</span></div>
+          <div class="mode-tabs" role="tablist" aria-label="Vehicle mode">
+            <button class="mode-tab active" data-mode="public" role="tab" aria-selected="true">Public</button>
+            <button class="mode-tab" data-mode="emergency" role="tab" aria-selected="false"><span>✚</span> Emergency</button>
+            <button class="mode-tab" data-mode="authority" role="tab" aria-selected="false">Authority</button>
+          </div>
+          <div class="route-form" id="route-form">
+            <label for="origin">FROM</label>
+            <div class="select-wrap"><span class="location-dot origin-dot"></span><select id="origin">
+              <option value="J1">Majestic · J1</option><option value="J2">Shivajinagar · J2</option><option value="J3">Indiranagar · J3</option>
+              <option value="J4">Domlur · J4</option><option value="J5">HAL · J5</option><option value="J6">Whitefield · J6</option>
+              <option value="J7">Richmond Town · J7</option><option value="J8">Jayanagar · J8</option><option value="J9">Koramangala · J9</option>
+              <option value="J10">MG Road · J10</option><option value="J11">HSR Layout · J11</option><option value="J12">Electronic City · J12</option>
+            </select><span class="select-chevron">⌄</span></div>
+            <button class="swap-button" id="swap-route" aria-label="Swap origin and destination">⇅</button>
+            <label for="destination">TO</label>
+            <div class="select-wrap"><span class="location-dot destination-dot"></span><select id="destination">
+              <option value="J6" selected>Whitefield · J6</option><option value="J1">Majestic · J1</option><option value="J2">Shivajinagar · J2</option>
+              <option value="J3">Indiranagar · J3</option><option value="J4">Domlur · J4</option><option value="J5">HAL · J5</option>
+              <option value="J7">Richmond Town · J7</option><option value="J8">Jayanagar · J8</option><option value="J9">Koramangala · J9</option>
+              <option value="J10">MG Road · J10</option><option value="J11">HSR Layout · J11</option><option value="J12">Electronic City · J12</option>
+            </select><span class="select-chevron">⌄</span></div>
+            <div class="vehicle-row"><label for="vehicle-type">VEHICLE TYPE</label><select id="vehicle-type"><optgroup label="Public vehicles" id="public-vehicle-options"><option value="car">Car</option><option value="bus">Bus</option><option value="bike">Motorcycle</option></optgroup><optgroup label="Emergency vehicles" id="emergency-vehicle-options" disabled><option value="ambulance">Ambulance</option><option value="fire">Fire truck</option><option value="police">Police</option></optgroup></select></div>
+            <div class="conditions-row"><label for="weather">ROAD CONDITIONS</label><select id="weather"><option value="clear">Clear weather</option><option value="rain">Rain · slower roads</option></select></div>
+            <button class="optimize-button" id="optimize-button">Optimize route <span>→</span></button>
+          </div>
+
+          <div class="authority-view" id="authority-view" hidden>
+            <div class="authority-summary"><span class="status-dot"></span> Network operating normally <small>12 junctions online</small></div>
+            <div class="junction-list">
+              <div class="junction-row"><span class="junction-name"><i class="congestion-high"></i> J3 · Indiranagar</span><strong>91%</strong><span class="junction-state">Critical</span></div>
+              <div class="junction-row"><span class="junction-name"><i class="congestion-medium"></i> J5 · HAL</span><strong>76%</strong><span class="junction-state">High</span></div>
+              <div class="junction-row"><span class="junction-name"><i class="congestion-medium"></i> J11 · HSR Layout</span><strong>62%</strong><span class="junction-state">Moderate</span></div>
+              <div class="junction-row"><span class="junction-name"><i class="congestion-low"></i> J7 · Richmond</span><strong>34%</strong><span class="junction-state">Clear</span></div>
+              <div class="junction-row"><span class="junction-name"><i class="congestion-low"></i> J9 · Koramangala</span><strong>28%</strong><span class="junction-state">Clear</span></div>
+            </div>
+            <div class="recommendation"><span class="recommendation-icon">✦</span><span><strong>Signal recommendation</strong><small>Extend green at J3 by 18 sec to ease queue buildup.</small></span></div>
+          </div>
+
+          <div class="route-result" id="route-result" aria-live="polite">
+            <div class="result-header"><span>RECOMMENDED ROUTE</span><span class="route-status"><i></i> OPTIMIZED</span></div>
+            <div class="route-metrics"><div><strong id="route-eta">24</strong><span>min ETA</span></div><div><strong id="route-distance">16.8</strong><span>km distance</span></div><div><strong id="route-signals">4</strong><span>signals</span></div></div>
+            <div class="route-progress"><div id="route-line"></div></div>
+            <div class="route-places"><span id="route-origin-label">Majestic</span><span id="route-destination-label">Whitefield</span></div>
+            <div class="route-path" id="route-path"><span>J1</span><i></i><span>J7</span><i></i><span>J8</span><i></i><span>J9</span><i></i><span>J4</span><i></i><span>J6</span></div>
+            <div class="route-insight"><span class="insight-spark">✦</span><span id="route-insight-text">Chosen route avoids the closure and saves <strong>6 min</strong> over the shortest-distance path.</span></div>
+            <div class="emergency-priority" id="emergency-priority" hidden><span>✚</span><div><strong>Green corridor recommended</strong><small>Prioritize signals at <b id="priority-junctions">J7 · J8 · J9 · J4</b></small></div></div>
+            <button class="alternative-button" id="alternative-button">Compare alternative route <span>↗</span></button>
+          </div>
+        </aside>
+      </section>
+
+      <section class="bottom-grid">
+        <article class="panel signals-panel">
+          <div class="panel-heading"><div><h2>Signal recommendations</h2><p>AI-assisted timing based on current flow</p></div><button class="text-button" data-view="signals">View all <span>→</span></button></div>
+          <div class="signal-table">
+            <div class="table-head"><span>JUNCTION</span><span>CONGESTION</span><span>RECOMMENDATION</span><span>PRIORITY</span></div>
+            <div class="table-row"><span class="table-junction"><i class="junction-dot dot-red"></i><span><strong>J3 · Indiranagar</strong><small>Outer Ring Rd</small></span></span><span><strong>91%</strong><div class="tiny-bar"><i style="width:91%"></i></div></span><span>Extend green by <b>18 sec</b></span><span class="priority critical">Critical</span></div>
+            <div class="table-row"><span class="table-junction"><i class="junction-dot dot-orange"></i><span><strong>J5 · HAL</strong><small>Airport Road</small></span></span><span><strong>76%</strong><div class="tiny-bar orange-bar"><i style="width:76%"></i></div></span><span>Divert through <b>J9</b></span><span class="priority high">High</span></div>
+            <div class="table-row"><span class="table-junction"><i class="junction-dot dot-yellow"></i><span><strong>J11 · HSR Layout</strong><small>27th Main Rd</small></span></span><span><strong>62%</strong><div class="tiny-bar yellow-bar"><i style="width:62%"></i></div></span><span>Monitor for next <b>10 min</b></span><span class="priority medium">Medium</span></div>
+          </div>
+        </article>
+        <article class="panel prediction-panel">
+          <div class="panel-heading"><div><h2>Congestion forecast</h2><p>Predicted network load · next 60 min</p></div><button class="period-button">Next hour ⌄</button></div>
+          <div class="forecast-chart">
+            <div class="chart-y-labels"><span>100%</span><span>75%</span><span>50%</span><span>25%</span><span>0%</span></div>
+            <div class="chart-area">
+              <div class="chart-gridline line-1"></div><div class="chart-gridline line-2"></div><div class="chart-gridline line-3"></div><div class="chart-gridline line-4"></div>
+              <div class="forecast-tooltip"><strong>52%</strong><small>10:30 AM</small></div>
+              <svg viewBox="0 0 430 142" preserveAspectRatio="none" aria-label="Forecast congestion rises from 38 percent to 64 percent then eases">
+                <defs><linearGradient id="area-fill" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#536dfb" stop-opacity=".2"/><stop offset="100%" stop-color="#536dfb" stop-opacity="0"/></linearGradient></defs>
+                <path class="forecast-fill" d="M0 101 C38 96 46 88 82 89 S129 81 165 75 S209 59 247 57 S288 43 327 48 S378 63 430 69 L430 142 L0 142 Z"/>
+                <path class="forecast-line" d="M0 101 C38 96 46 88 82 89 S129 81 165 75 S209 59 247 57 S288 43 327 48 S378 63 430 69"/>
+                <circle cx="247" cy="57" r="4" class="forecast-point"/>
+              </svg>
+              <div class="chart-x-labels"><span>09:45</span><span>10:00</span><span>10:15</span><span>10:30</span><span>10:45</span><span>11:00</span></div>
+            </div>
+          </div>
+          <div class="forecast-note"><span>↗</span> Peak congestion expected around <strong>10:45 AM</strong></div>
+        </article>
+      </section>
+
+      <footer class="page-footer"><span>Flowstate Urban Mobility Lab <b>·</b> Academic simulation</span><span>Dynamic graph optimization <b>·</b> No live city data connected</span></footer>
+    </main>
+  </div>
+</body>
+</html>
