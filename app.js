@@ -79,25 +79,26 @@ function roadCoordinates(road) {
 function initializeMap() {
   const container = document.querySelector("#city-map");
   if (!window.L) {
-    console.error("Leaflet did not load. Connect to the internet to load the OpenStreetMap view.");
-    container.innerHTML = '<div class="map-unavailable"><strong>Map tiles need an internet connection</strong><span>Reload this page while online to load the OpenStreetMap basemap.</span></div>';
+    console.error("Leaflet did not load. Connect to the internet to load the map.");
+    container.innerHTML = '<div class="map-unavailable"><strong>Map needs an internet connection</strong><span>Reload this page while online to load the map.</span></div>';
     return;
   }
 
   cityMap = L.map(container, { zoomControl: false, scrollWheelZoom: true });
   cityMap.setView([12.955, 77.65], 12);
-  const tiles = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  const tiles = L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
     maxZoom: 19,
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap contributors</a>'
+    subdomains: "abcd",
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap contributors</a> &copy; <a href="https://carto.com/attributions" target="_blank" rel="noreferrer">CARTO</a>'
   }).addTo(cityMap);
   let tileErrorShown = false;
   tiles.on("tileerror", () => {
     if (tileErrorShown) return;
     tileErrorShown = true;
-    console.error("OpenStreetMap tiles could not be loaded. Check the internet connection or tile service.");
+    console.error("Map tiles could not be loaded. Check the internet connection or tile service.");
     const notice = document.createElement("div");
     notice.className = "map-unavailable";
-    notice.innerHTML = "<strong>Map tiles are unavailable</strong><span>The routing demo still works; reconnect to the internet to view the basemap.</span>";
+    notice.innerHTML = "<strong>Map tiles are unavailable</strong><span>The routing demo still works; try again later or configure another tile provider.</span>";
     container.append(notice);
   });
 
