@@ -86,10 +86,9 @@ function initializeMap() {
 
   cityMap = L.map(container, { zoomControl: false, scrollWheelZoom: true });
   cityMap.setView([12.955, 77.65], 12);
-  const tiles = L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+  const tiles = L.tileLayer("https://tile.openstreetmap.de/{z}/{x}/{y}.png", {
     maxZoom: 19,
-    subdomains: "abcd",
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap contributors</a> &copy; <a href="https://carto.com/attributions" target="_blank" rel="noreferrer">CARTO</a>'
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap contributors</a>'
   }).addTo(cityMap);
   let tileErrorShown = false;
   tiles.on("tileerror", () => {
