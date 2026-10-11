@@ -316,7 +316,7 @@ const server = http.createServer((request, response) => {
   sessionCleanup.unref();
 });
 
-server.listen(PORT, "127.0.0.1", () => {
-  console.log(`Flowstate is ready at http://127.0.0.1:${PORT}`);
+server.listen(PORT, "0.0.0.0", () => {
+  console.log(`Flowstate is ready at http://0.0.0.0:${PORT}`);
   console.log(`Account records are stored locally in ${USER_FILE}`);
 });
